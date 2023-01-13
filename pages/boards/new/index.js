@@ -1,20 +1,12 @@
 
 import { Address, ButtonWrapper, Contents, Error, ImageWrapper, InputWrapper, Label, OptionWrapper, Password, RadioButton, RadioLabel, SearchButton, Subject, SubmitButton, Title, UploadButton, Wrapper, Writer, WriterWrapper, Youtube, Zipcode, ZipcodeWrapper } from '../../../styles/emotion'
 import { useForm } from "react-hook-form";
-import { useState } from 'react';
+
 
 export default function BoardWriteUI(){
 
     const { register, handleSubmit, formState: { isSubmitting, isDirty, errors } } = useForm();
-    const [data,setData] = useState({});
-
-    function handleChange(e){
-        setData({
-            ...data,
-            [e.target.name]:e.target.value
-            }
-        )
-    }
+  
 
     return(
         <Wrapper>
@@ -24,8 +16,9 @@ export default function BoardWriteUI(){
                     <Label>작성자</Label>
                     <Writer 
                     aria-invalid={!isDirty ? undefined : errors.email ? "true" : "false"}
-                    name='writer' type='text' placeholder='이름을 적어주세요' onChange={handleChange} 
+                    name='writer' type='text' placeholder='이름을 적어주세요' 
                     {...register('writer',{
+                        
                         required:'작성자는 필수 입력입니다.'
                     })}></Writer>
                     <Error>
@@ -39,9 +32,9 @@ export default function BoardWriteUI(){
                 type='password' 
                 placeholder='비밀번호를 작성해주세요' 
                 aria-invalid={!isDirty ? undefined : errors.password ? "true" : "false"}
-                onChange={handleChange} 
                 {...register('password', {
                     required: "비밀번호는 필수 입력입니다.",
+                    
                     minLength: {
                       value: 8,
                       message: "8자리 이상 비밀번호를 사용하세요.",
@@ -57,8 +50,8 @@ export default function BoardWriteUI(){
                 name='subject' 
                 type='text' 
                 placeholder='제목을 작성하세요' 
-                onChange={handleChange} 
                 {...register('subject',{
+                    
                     required:'제목은 필수 입력입니다.'
                 })}></Subject>
                  <Error>
@@ -70,8 +63,8 @@ export default function BoardWriteUI(){
                 <Contents 
                 name='contents' 
                 placeholder='내용을 작성해주세요.' 
-                onChange={handleChange} 
                 {...register('contents',{
+                    
                     required:'내용은 필수 입력입니다.'
                 })}/>
                  <Error>
@@ -81,25 +74,35 @@ export default function BoardWriteUI(){
             <InputWrapper>
                 <Label>주소</Label>
                 <ZipcodeWrapper>
-                    <Zipcode name='zipcode' placeholder='07250' onChange={handleChange} {...register('zipcode',{
-                    required:'우편번호는 필수 입력입니다.'
+                    <Zipcode name='zipcode' placeholder='07250'  
+                    {...register('zipcode',{
+                        
+                        required:'우편번호는 필수 입력입니다.'
                 })}></Zipcode>
                     <SearchButton>우편번호 검색</SearchButton>
                 </ZipcodeWrapper>
                 <Error>
                     {errors.zipcode && <small style={{color:'red'}}>{errors.zipcode.message}</small>}
                 </Error>
-                <Address name='address1' onChange={handleChange} {...register('address1',{
+                <Address name='address1' 
+                 {...register('address1',{
+                    
                     required:'첫번째 주소는 필수 입력입니다.'
                 })}/>
                 <Error>
                     {errors.address1 && <small style={{color:'red'}}>{errors.address1.message}</small>}
                 </Error>
-                <Address name='address2' onChange={handleChange} {...register('address2')}/>
+                <Address name='address2' 
+                    {...register('address2',{
+                        
+                    })}/>
             </InputWrapper>
             <InputWrapper>
                 <Label>유튜브</Label>
-                <Youtube name='youtube' placeholder='링크를 복사하세요' onChange={handleChange} {...register('youtube')}/>
+                <Youtube name='youtube' placeholder='링크를 복사하세요' 
+                {...register('youtube',{
+                    
+                })}/>
             </InputWrapper>
             <ImageWrapper>
                 <Label>사진첨부</Label>
