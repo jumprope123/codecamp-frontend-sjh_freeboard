@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
   width: 1200px;
-  height: 1847px;
+  // height: 1847px;
   border: 1px solid black;
   margin: 100px;
   padding-top: 80px;
@@ -156,3 +156,8 @@ cursor: pointer;
 
 background-color: yellow;
 `
+
+export const Error = styled.div`
+  font-size: 14px;
+  color: red;
+`;
