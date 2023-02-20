@@ -30,6 +30,7 @@ export default function BoardWriterUI(props) {
     register,
     handleSubmit,
     getValues,
+    setValue,
     formState: { isSubmitting, isDirty, errors },
   } = useForm();
 
@@ -37,7 +38,7 @@ export default function BoardWriterUI(props) {
 
   const checkAllInputs = () => {
     const data = getValues();
-    console.log(data);
+
     if (data.writer && data.password && data.title && data.contents) {
       setActiveButton(true);
     } else {
@@ -45,16 +46,25 @@ export default function BoardWriterUI(props) {
     }
   };
 
+  useEffect(() => {
+    console.log(props.data);
+    setValue("writer", props.data?.fetchBoard?.writer);
+    setValue("title", props.data?.fetchBoard?.title);
+    setValue("contents", props.data?.fetchBoard?.contents);
+    setValue("zipcode", props.data?.fetchBoard?.boardAddress?.zipcode);
+    setValue("address", props.data?.fetchBoard?.boardAddress?.address);
+    setValue("addressDetail", props.data?.fetchBoard?.boardAddress?.addressDetail);
+    setValue("youtubeUrl", props.data?.fetchBoard?.youtubeUrl);
+  }, [props.data]);
+
   return (
     <Wrapper>
-      <Title>게시물 등록</Title>
+      <Title>게시물 {props.isEdit ? "수정" : "등록"}</Title>
       <WriterWrapper>
         <InputWrapper>
           <Label>작성자</Label>
           <Writer
-            aria-invalid={
-              !isDirty ? undefined : errors.email ? "true" : "false"
-            }
+            aria-invalid={!isDirty ? undefined : errors.email ? "true" : "false"}
             name="writer"
             type="text"
             placeholder="이름을 적어주세요"
@@ -63,11 +73,7 @@ export default function BoardWriterUI(props) {
             })}
             onBlur={checkAllInputs}
           ></Writer>
-          <Error>
-            {errors.writer && (
-              <small style={{ color: "red" }}>{errors.writer.message}</small>
-            )}
-          </Error>
+          <Error>{errors.writer && <small style={{ color: "red" }}>{errors.writer.message}</small>}</Error>
         </InputWrapper>
         <InputWrapper>
           <Label>비밀번호</Label>
@@ -75,9 +81,7 @@ export default function BoardWriterUI(props) {
             name="password"
             type="password"
             placeholder="비밀번호를 작성해주세요"
-            aria-invalid={
-              !isDirty ? undefined : errors.password ? "true" : "false"
-            }
+            aria-invalid={!isDirty ? undefined : errors.password ? "true" : "false"}
             {...register("password", {
               required: "비밀번호는 필수 입력입니다.",
 
@@ -88,11 +92,7 @@ export default function BoardWriterUI(props) {
             })}
             onBlur={checkAllInputs}
           ></Password>
-          <Error>
-            {errors.password && (
-              <small style={{ color: "red" }}>{errors.password.message}</small>
-            )}
-          </Error>
+          <Error>{errors.password && <small style={{ color: "red" }}>{errors.password.message}</small>}</Error>
         </InputWrapper>
       </WriterWrapper>
       <InputWrapper>
@@ -106,11 +106,7 @@ export default function BoardWriterUI(props) {
           })}
           onBlur={checkAllInputs}
         ></Subject>
-        <Error>
-          {errors.title && (
-            <small style={{ color: "red" }}>{errors.title.message}</small>
-          )}
-        </Error>
+        <Error>{errors.title && <small style={{ color: "red" }}>{errors.title.message}</small>}</Error>
       </InputWrapper>
       <InputWrapper>
         <Label>내용</Label>
@@ -122,11 +118,7 @@ export default function BoardWriterUI(props) {
           })}
           onBlur={checkAllInputs}
         />
-        <Error>
-          {errors.contents && (
-            <small style={{ color: "red" }}>{errors.contents.message}</small>
-          )}
-        </Error>
+        <Error>{errors.contents && <small style={{ color: "red" }}>{errors.contents.message}</small>}</Error>
       </InputWrapper>
       <InputWrapper>
         <Label>주소</Label>
@@ -140,31 +132,19 @@ export default function BoardWriterUI(props) {
           ></Zipcode>
           <SearchButton>우편번호 검색</SearchButton>
         </ZipcodeWrapper>
-        <Error>
-          {errors.zipcode && (
-            <small style={{ color: "red" }}>{errors.zipcode.message}</small>
-          )}
-        </Error>
+        <Error>{errors.zipcode && <small style={{ color: "red" }}>{errors.zipcode.message}</small>}</Error>
         <Address
           name="address"
           {...register("address", {
             required: "첫번째 주소는 필수 입력입니다.",
           })}
         />
-        <Error>
-          {errors.address && (
-            <small style={{ color: "red" }}>{errors.address.message}</small>
-          )}
-        </Error>
+        <Error>{errors.address && <small style={{ color: "red" }}>{errors.address.message}</small>}</Error>
         <Address name="addressDetail" {...register("addressDetail", {})} />
       </InputWrapper>
       <InputWrapper>
         <Label>유튜브</Label>
-        <Youtube
-          name="youtubeUrl"
-          placeholder="링크를 복사하세요"
-          {...register("youtubeUrl", {})}
-        />
+        <Youtube name="youtubeUrl" placeholder="링크를 복사하세요" {...register("youtubeUrl", {})} />
       </InputWrapper>
       <ImageWrapper>
         <Label>사진첨부</Label>
@@ -182,10 +162,12 @@ export default function BoardWriterUI(props) {
       <ButtonWrapper>
         <SubmitButton
           activeButton={activeButton}
-          onClick={handleSubmit((data) => props.onClickSubmit(data))}
+          onClick={handleSubmit((data) => {
+            props.isEdit ? props.onClickUpdate(data) : props.onClickSubmit(data);
+          })}
           disabled={isSubmitting}
         >
-          등록하기
+          {props.isEdit ? "수정" : "등록"}하기
         </SubmitButton>
       </ButtonWrapper>
     </Wrapper>

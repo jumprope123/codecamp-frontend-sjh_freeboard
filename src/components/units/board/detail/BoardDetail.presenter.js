@@ -1,19 +1,5 @@
 import { getDate } from "../../../commons/utils/utils";
-import {
-  Avatar,
-  AvatarWrapper,
-  Body,
-  BottomWrapper,
-  Button,
-  CardWrapper,
-  Contents,
-  CreatedAt,
-  Header,
-  Info,
-  Title,
-  Wrapper,
-  Writer,
-} from "./BoardDetail.emotions";
+import { Avatar, AvatarWrapper, Body, BottomWrapper, Button, CardWrapper, Contents, CreatedAt, Header, Info, Title, Wrapper, Writer } from "./BoardDetail.emotions";
 
 export default function BoardDetailUI(props) {
   return (
@@ -25,9 +11,7 @@ export default function BoardDetailUI(props) {
               <Avatar src="/images/avatar.png" />
               <Info>
                 <Writer>{props.data?.fetchBoard?.writer}</Writer>
-                <CreatedAt>
-                  Date:{getDate(props.data?.fetchBoard?.createdAt)}
-                </CreatedAt>
+                <CreatedAt>Date:{getDate(props.data?.fetchBoard?.createdAt)}</CreatedAt>
               </Info>
             </AvatarWrapper>
           </Header>
@@ -38,7 +22,7 @@ export default function BoardDetailUI(props) {
         </CardWrapper>
         <BottomWrapper>
           <Button onClick={props.onClickMoveToBoardList}>목록으로</Button>
-          <Button>수정하기</Button>
+          <Button onClick={props.onClickMoveToBoardEdit}>수정하기</Button>
           <Button onClick={props.onDelete}>삭제하기</Button>
         </BottomWrapper>
       </Wrapper>

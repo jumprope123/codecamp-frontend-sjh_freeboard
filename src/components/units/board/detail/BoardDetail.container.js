@@ -32,11 +32,9 @@ export default function BoardDetail() {
     router.push("/boards");
   };
 
-  return (
-    <BoardDetailUI
-      data={data}
-      onDelete={onDelete}
-      onClickMoveToBoardList={onClickMoveToBoardList}
-    />
-  );
+  const onClickMoveToBoardEdit = () => {
+    router.push(`/boards/${router.query.boardId}/edit`);
+  };
+
+  return <BoardDetailUI data={data} onDelete={onDelete} onClickMoveToBoardList={onClickMoveToBoardList} onClickMoveToBoardEdit={onClickMoveToBoardEdit} />;
 }
