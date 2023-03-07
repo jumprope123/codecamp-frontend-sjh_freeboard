@@ -1,10 +1,13 @@
 import { useEffect } from "react";
 import * as S from "./BoardCommentWrite.emotions";
+import { type IBoardCommentWriteUIProps } from "./BoardCommentWrite.typescript";
+import { Rate } from "antd";
 
-export default function BoardCommentWriteUI(props) {
+export default function BoardCommentWriteUI(props: IBoardCommentWriteUIProps) {
     useEffect(() => {
         console.log(props.commentData);
     }, [props.commentData]);
+
     return (
         <S.Wrapper>
             <>
@@ -14,6 +17,7 @@ export default function BoardCommentWriteUI(props) {
             <S.InputWrapper>
                 <S.Input placeholder="작성자" name="writer" value={props.commentData?.writer} onChange={props.handleChange} />
                 <S.Input placeholder="비밀번호" name="password" type="password" value={props.commentData?.password} onChange={props.handleChange} />
+                <Rate allowHalf defaultValue={5} onChange={props.handleRating} />
             </S.InputWrapper>
             <S.ContentsWrapper>
                 <S.Contents

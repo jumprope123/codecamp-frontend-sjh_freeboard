@@ -1,38 +1,49 @@
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
+import { type IMutation, type IMutationCreateBoardCommentArgs } from "../../../../commons/types/generated/types";
 import { FETCH_BOARD_COMMENTS } from "../list/BoardCommentList.queries";
 import BoardCommentWriteUI from "./BoardCommentWrite.container";
 import { CREATE_BOARD_COMMENT } from "./BoardCommentWrite.queries";
 
-const initialState = {
+import { type IInitialState } from "./BoardCommentWrite.typescript";
+
+const initialState: IInitialState = {
     writer: "",
     contents: "",
     password: "",
+    rating: 5,
 };
 export default function BoardCommentWrite() {
     const [commentData, setCommentData] = useState(initialState);
-    const handleChange = (event) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
         setCommentData((prev) => ({
             ...prev,
             [event.target.name]: event.target.value,
         }));
     };
 
-    const [createBoardComment] = useMutation(CREATE_BOARD_COMMENT);
+    const handleRating = (rating: number) => {
+        setCommentData((prev) => ({
+            ...prev,
+            rating,
+        }));
+    };
+
+    const [createBoardComment] = useMutation<Pick<IMutation, "createBoardComment">, IMutationCreateBoardCommentArgs>(CREATE_BOARD_COMMENT);
     const router = useRouter();
 
     const onSubmitComment = async () => {
-        if (commentData?.writer && commentData?.password && commentData?.contents) {
+        if (commentData?.writer && commentData?.password && commentData?.contents && commentData?.rating) {
             try {
-                const result = await createBoardComment({
+                await createBoardComment({
                     variables: {
-                        boardId: router.query.boardId,
+                        boardId: router.query.boardId as string,
                         createBoardCommentInput: {
-                            writer: commentData?.writer.toString(),
-                            password: commentData?.password.toString(),
-                            contents: commentData?.contents.toString(),
-                            rating: 2,
+                            writer: commentData.writer.toString(),
+                            password: commentData.password.toString(),
+                            contents: commentData.contents.toString(),
+                            rating: commentData.rating,
                         },
                     },
                     refetchQueries: [
@@ -54,7 +65,7 @@ export default function BoardCommentWrite() {
     };
     return (
         <>
-            <BoardCommentWriteUI commentData={commentData} handleChange={handleChange} onSubmitComment={onSubmitComment} />
+            <BoardCommentWriteUI commentData={commentData} handleChange={handleChange} onSubmitComment={onSubmitComment} handleRating={handleRating} />
         </>
     );
 }
