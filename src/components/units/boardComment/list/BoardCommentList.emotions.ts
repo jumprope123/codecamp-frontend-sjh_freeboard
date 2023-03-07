@@ -57,3 +57,8 @@ export const DateString = styled.div`
     padding-top: 15px;
     padding-left: 60px;
 `;
+
+export const ratingDiv = styled.div`
+    margin-left: 10px;
+    padding-bottom: 2px;
+`;

@@ -24,7 +24,7 @@ import {
 } from "./BoardWrite.emotions";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { IBoardWriterUIProps } from "./BoardWrite.typescript";
+import { type IBoardWriterUIProps } from "./BoardWrite.typescript";
 
 export default function BoardWriterUI(props: IBoardWriterUIProps) {
     const {

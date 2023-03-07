@@ -1,10 +1,10 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { ICreateBoardInput, IMutation, IMutationCreateBoardArgs, IMutationUpdateBoardArgs, IQuery, IQueryFetchBoardArgs } from "../../../../commons/types/generated/types";
+import { type IMutation, type IMutationCreateBoardArgs, type IMutationUpdateBoardArgs, type IQuery, type IQueryFetchBoardArgs } from "../../../../commons/types/generated/types";
 import { FETCH_BOARD } from "../detail/BoardDetail.queries";
 import BoardWriterUI from "./BoardWrite.presenter";
 import { CREATE_BOARD, UPDATE_BOARD } from "./BoardWrite.queries";
-import { IBoardWriteInput, IBoardWriteProps } from "./BoardWrite.typescript";
+import { type IBoardWriteInput, type IBoardWriteProps } from "./BoardWrite.typescript";
 
 export default function BoardWrite(props: IBoardWriteProps) {
     const router = useRouter();
@@ -13,7 +13,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
 
     const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(FETCH_BOARD, {
         variables: {
-            boardId: router.query.boardId as string,
+            boardId: String(router.query.boardId),
         },
     });
 
@@ -37,7 +37,9 @@ export default function BoardWrite(props: IBoardWriteProps) {
                 },
             });
 
-            router.push(`/boards/${result?.data?.createBoard?._id}`);
+            if (typeof result?.data?.createBoard?._id === 'string') {
+            void router.push(`/boards/${result?.data?.createBoard?._id}`);
+            }
         } catch (err) {
             console.error(err);
         }
@@ -62,7 +64,10 @@ export default function BoardWrite(props: IBoardWriteProps) {
                     },
                 },
             });
-            router.push(`/boards/${result?.data?.updateBoard?._id}`);
+
+            if (typeof result?.data?.updateBoard?._id === 'string') {
+            void router.push(`/boards/${result?.data?.updateBoard?._id}`);
+            }
         } catch (err) {
             console.error(err);
         }

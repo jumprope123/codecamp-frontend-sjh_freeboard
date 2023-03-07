@@ -1,7 +1,7 @@
 import * as S from "./BoardList.emotions";
 import { getDate } from "../../../commons/utils/utils";
-import { IBoardListUI } from "./BoardList.typescript";
-export default function BoardListUI(props: IBoardListUI) {
+import { type IBoardListUIProps } from "./BoardList.typescript";
+export default function BoardListUI(props: IBoardListUIProps) {
     return (
         <>
             <S.Wrapper>

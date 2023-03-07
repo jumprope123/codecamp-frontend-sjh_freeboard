@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { ISubmitButtonProps } from "./BoardWrite.typescript";
+import { type ISubmitButtonProps } from "./BoardWrite.typescript";
 
 export const Wrapper = styled.div`
     width: 1200px;

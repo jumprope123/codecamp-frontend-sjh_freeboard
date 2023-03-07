@@ -1,8 +1,30 @@
+import { LikeOutlined } from "@ant-design/icons";
+import { DislikeOutlined } from "@ant-design/icons/lib/icons";
 import { getDate } from "../../../commons/utils/utils";
-import { Avatar, AvatarWrapper, Body, BottomWrapper, Button, CardWrapper, Contents, CreatedAt, Header, Info, Title, Wrapper, Writer } from "./BoardDetail.emotions";
-import { IBoardDetailUI } from "./BoardDetail.typescript";
+import YouTube from "react-youtube";
 
-export default function BoardDetailUI(props: IBoardDetailUI) {
+import {
+    Avatar,
+    AvatarWrapper,
+    Body,
+    BottomWrapper,
+    Button,
+    CardWrapper,
+    Contents,
+    CreatedAt,
+    DisLikeDiv,
+    Header,
+    Info,
+    LikeDiv,
+    LikeWrapper,
+    Title,
+    Wrapper,
+    Writer,
+    YouTubeWrapper,
+} from "./BoardDetail.emotions";
+import { type IBoardDetailUIProps } from "./BoardDetail.typescript";
+
+export default function BoardDetailUI(props: IBoardDetailUIProps) {
     return (
         <>
             <Wrapper>
@@ -20,6 +42,17 @@ export default function BoardDetailUI(props: IBoardDetailUI) {
                         <Title>{props.data?.fetchBoard?.title}</Title>
                         <Contents>{props.data?.fetchBoard?.contents}</Contents>
                     </Body>
+                    <YouTubeWrapper>{typeof props.data?.fetchBoard?.youtubeUrl === "string" && <YouTube videoId={props.data?.fetchBoard?.youtubeUrl} opts={props.opts} />}</YouTubeWrapper>
+                    <LikeWrapper>
+                        <LikeDiv onClick={props.onClickLike}>
+                            <LikeOutlined />
+                            {props.data?.fetchBoard?.likeCount}
+                        </LikeDiv>
+                        <DisLikeDiv onClick={props.onClickDisLike}>
+                            <DislikeOutlined />
+                            {props.data?.fetchBoard?.dislikeCount}
+                        </DisLikeDiv>
+                    </LikeWrapper>
                 </CardWrapper>
                 <BottomWrapper>
                     <Button onClick={props.onClickMoveToBoardList}>목록으로</Button>

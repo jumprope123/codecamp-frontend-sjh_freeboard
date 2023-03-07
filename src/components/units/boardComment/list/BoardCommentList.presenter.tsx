@@ -1,16 +1,28 @@
 import * as S from "./BoardCommentList.emotions";
-import { getDate } from "../../../../components/commons/utils/utils";
+import { getDate } from "../../../commons/utils/utils";
+import type { IBoardCommentListUIProps } from "./BoardCommentList.typescript";
+import type { MouseEvent } from "react";
+import { Rate } from "antd";
 
-export default function BoardCommentListUI(props) {
+export default function BoardCommentListUI(props: IBoardCommentListUIProps) {
+    const handleClickDiv = (event: MouseEvent<HTMLDivElement>) => {
+        alert(event.currentTarget.id + "님이 작성하신 댓글입니다.");
+    };
+
+    console.log(props.data?.fetchBoardComments);
+
     return (
         <>
             {props.data?.fetchBoardComments.map((item) => (
-                <S.ItemWrapper key={item._id}>
+                <S.ItemWrapper key={item._id} id={item.writer as string} onClick={handleClickDiv}>
                     <S.FlexWrapper>
                         <S.Avatar src="/images/avatar.png" />
-                        <S.MainWrapper>
+                        <S.MainWrapper /* onClick={test} */>
                             <S.WriterWrapper>
                                 <S.Writer>{item.writer}</S.Writer>
+                                <S.ratingDiv>
+                                    <Rate allowHalf value={item.rating} disabled />
+                                </S.ratingDiv>
                             </S.WriterWrapper>
                             <S.Contents>{item.contents}</S.Contents>
                         </S.MainWrapper>

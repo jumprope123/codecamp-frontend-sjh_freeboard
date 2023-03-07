@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { IMutation, IMutationDeleteBoardArgs, IQuery, IQueryFetchBoardArgs } from "../../../../commons/types/generated/types";
+import type { IMutationDislikeBoardArgs, IMutationLikeBoardArgs, IMutation, IMutationDeleteBoardArgs, IQuery, IQueryFetchBoardArgs } from "../../../../commons/types/generated/types";
 import BoardDetailUI from "./BoardDetail.presenter";
-import { DELETE_BORAD, FETCH_BOARD } from "./BoardDetail.queries";
+import { DELETE_BORAD, DISLIKE_BOARD, FETCH_BOARD, LIKE_BOARD } from "./BoardDetail.queries";
+import type { YouTubeProps } from "react-youtube";
 
 export default function BoardDetail() {
     const router = useRouter();
@@ -14,28 +15,95 @@ export default function BoardDetail() {
     });
 
     const [deleteBoard] = useMutation<Pick<IMutation, "deleteBoard">, IMutationDeleteBoardArgs>(DELETE_BORAD);
+    const [likeBoard] = useMutation<Pick<IMutation, "likeBoard">, IMutationLikeBoardArgs>(LIKE_BOARD);
+    const [dislikeBoard] = useMutation<Pick<IMutation, "dislikeBoard">, IMutationDislikeBoardArgs>(DISLIKE_BOARD);
 
     const onDelete = async () => {
         try {
-            const result = await deleteBoard({
+            await deleteBoard({
                 variables: {
                     boardId: router.query.boardId as string,
                 },
             });
 
-            router.push("/boards");
+            void router.push("/boards");
         } catch (error) {
             console.error(error);
         }
     };
 
     const onClickMoveToBoardList = () => {
-        router.push("/boards");
+        void router.push("/boards");
     };
 
     const onClickMoveToBoardEdit = () => {
-        router.push(`/boards/${router.query.boardId}/edit`);
+        if (typeof router.query.boardId === "string") {
+            void router.push(`/boards/${router.query.boardId}/edit`);
+        }
     };
 
-    return <BoardDetailUI data={data} onDelete={onDelete} onClickMoveToBoardList={onClickMoveToBoardList} onClickMoveToBoardEdit={onClickMoveToBoardEdit} />;
+    const onClickLike = async () => {
+        try {
+            await likeBoard({
+                variables: {
+                    boardId: router.query.boardId as string,
+                },
+                refetchQueries: [
+                    {
+                        query: FETCH_BOARD,
+                        variables: {
+                            boardId: router.query.boardId,
+                        },
+                    },
+                ],
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const onClickDisLike = async () => {
+        try {
+            await dislikeBoard({
+                variables: {
+                    boardId: router.query.boardId as string,
+                },
+                refetchQueries: [
+                    {
+                        query: FETCH_BOARD,
+                        variables: {
+                            boardId: router.query.boardId,
+                        },
+                    },
+                ],
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const onPlayerReady: YouTubeProps["onReady"] = (event) => {
+        event.target.pauseVideo();
+    };
+
+    const opts: YouTubeProps["opts"] = {
+        height: "390",
+        width: "640",
+        playerVars: {
+            autoplay: 1,
+        },
+    };
+
+    return (
+        <BoardDetailUI
+            data={data}
+            opts={opts}
+            onPlayerReady={onPlayerReady}
+            onDelete={onDelete}
+            onClickMoveToBoardList={onClickMoveToBoardList}
+            onClickMoveToBoardEdit={onClickMoveToBoardEdit}
+            onClickDisLike={onClickDisLike}
+            onClickLike={onClickLike}
+        />
+    );
 }
