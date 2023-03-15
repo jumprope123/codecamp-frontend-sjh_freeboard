@@ -7,7 +7,9 @@ export interface IBoardWriteProps {
 export interface IBoardWriterUIProps {
     onClickSubmit: (data: any) => void;
     onClickUpdate: (data: any) => void;
+    ToggleModal: () => void;
     isEdit: boolean;
+    isModalOpen: boolean;
     data?: Pick<IQuery, "fetchBoard">;
 }
 

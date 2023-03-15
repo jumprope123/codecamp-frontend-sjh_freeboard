@@ -5,11 +5,13 @@ import { FETCH_BOARD } from "../detail/BoardDetail.queries";
 import BoardWriterUI from "./BoardWrite.presenter";
 import { CREATE_BOARD, UPDATE_BOARD } from "./BoardWrite.queries";
 import { type IBoardWriteInput, type IBoardWriteProps } from "./BoardWrite.typescript";
+import { useState } from "react";
 
 export default function BoardWrite(props: IBoardWriteProps) {
     const router = useRouter();
     const [createBoard] = useMutation<Pick<IMutation, "createBoard">, IMutationCreateBoardArgs>(CREATE_BOARD);
     const [updateBoard] = useMutation<Pick<IMutation, "updateBoard">, IMutationUpdateBoardArgs>(UPDATE_BOARD);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(FETCH_BOARD, {
         variables: {
@@ -37,8 +39,8 @@ export default function BoardWrite(props: IBoardWriteProps) {
                 },
             });
 
-            if (typeof result?.data?.createBoard?._id === 'string') {
-            void router.push(`/boards/${result?.data?.createBoard?._id}`);
+            if (typeof result?.data?.createBoard?._id === "string") {
+                void router.push(`/boards/${result?.data?.createBoard?._id}`);
             }
         } catch (err) {
             console.error(err);
@@ -65,13 +67,17 @@ export default function BoardWrite(props: IBoardWriteProps) {
                 },
             });
 
-            if (typeof result?.data?.updateBoard?._id === 'string') {
-            void router.push(`/boards/${result?.data?.updateBoard?._id}`);
+            if (typeof result?.data?.updateBoard?._id === "string") {
+                void router.push(`/boards/${result?.data?.updateBoard?._id}`);
             }
         } catch (err) {
             console.error(err);
         }
     };
 
-    return <BoardWriterUI onClickSubmit={onClickSubmit} onClickUpdate={onClickUpdate} isEdit={props.isEdit} data={data} />;
+    const ToggleModal = () => {
+        setIsModalOpen((prev) => !prev);
+    };
+
+    return <BoardWriterUI onClickSubmit={onClickSubmit} onClickUpdate={onClickUpdate} isEdit={props.isEdit} data={data} ToggleModal={ToggleModal} isModalOpen={isModalOpen} />;
 }

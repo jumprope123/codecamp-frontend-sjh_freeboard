@@ -1,4 +1,5 @@
 import { useMutation } from "@apollo/client";
+import { Modal } from "antd";
 import { useRouter } from "next/router";
 import { useState, type ChangeEvent } from "react";
 import { type IMutation, type IMutationCreateBoardCommentArgs } from "../../../../commons/types/generated/types";
@@ -60,7 +61,9 @@ export default function BoardCommentWrite() {
                 console.error(error);
             }
         } else {
-            alert("작성자,비밀번호,내용중 빈 값이 있습니다.");
+            Modal.warning({
+                content: '"작성자,비밀번호,내용중 빈 값이 있습니다."',
+            });
         }
     };
     return (
