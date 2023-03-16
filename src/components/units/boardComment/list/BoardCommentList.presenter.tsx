@@ -2,11 +2,14 @@ import * as S from "./BoardCommentList.emotions";
 import { getDate } from "../../../commons/utils/utils";
 import type { IBoardCommentListUIProps } from "./BoardCommentList.typescript";
 import type { MouseEvent } from "react";
-import { Rate } from "antd";
+import { Modal, Rate } from "antd";
 
 export default function BoardCommentListUI(props: IBoardCommentListUIProps) {
     const handleClickDiv = (event: MouseEvent<HTMLDivElement>) => {
-        alert(event.currentTarget.id + "님이 작성하신 댓글입니다.");
+        Modal.info({
+            content: event.currentTarget.id + "님이 작성하신 댓글입니다.",
+            onOk() {},
+        });
     };
 
     console.log(props.data?.fetchBoardComments);
