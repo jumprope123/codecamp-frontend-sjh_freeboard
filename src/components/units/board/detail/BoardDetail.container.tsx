@@ -1,6 +1,13 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import type { IMutationDislikeBoardArgs, IMutationLikeBoardArgs, IMutation, IMutationDeleteBoardArgs, IQuery, IQueryFetchBoardArgs } from "../../../../commons/types/generated/types";
+import type {
+    IMutationDislikeBoardArgs,
+    IMutationLikeBoardArgs,
+    IMutation,
+    IMutationDeleteBoardArgs,
+    IQuery,
+    IQueryFetchBoardArgs,
+} from "../../../../commons/types/generated/types";
 import BoardDetailUI from "./BoardDetail.presenter";
 import { DELETE_BORAD, DISLIKE_BOARD, FETCH_BOARD, LIKE_BOARD } from "./BoardDetail.queries";
 import type { YouTubeProps } from "react-youtube";
@@ -94,6 +101,14 @@ export default function BoardDetail() {
         },
     };
 
+    const getSafeString = (value: any): string => {
+        if (value === null || value === undefined) {
+            return "";
+        } else {
+            return value.toString();
+        }
+    };
+
     return (
         <BoardDetailUI
             data={data}
@@ -104,6 +119,7 @@ export default function BoardDetail() {
             onClickMoveToBoardEdit={onClickMoveToBoardEdit}
             onClickDisLike={onClickDisLike}
             onClickLike={onClickLike}
+            getSafeString={getSafeString}
         />
     );
 }

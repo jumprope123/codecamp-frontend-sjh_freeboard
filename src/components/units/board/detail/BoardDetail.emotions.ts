@@ -1,4 +1,12 @@
 import styled from "@emotion/styled";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import Tooltip from "@mui/material/Tooltip";
+
+export const CenterDiv = styled.div`
+    display: flex;
+    justify-content: center;
+    width: 100%;
+`;
 
 export const Wrapper = styled.div`
     width: 1200px;
@@ -118,4 +126,15 @@ export const YouTubeWrapper = styled.div`
     display: flex;
     justify-content: center;
     width: 100%;
+`;
+
+export const HeaderInfoWrapper = styled.div`
+    text-align: center;
+`;
+
+export const MuiTooltip = styled(Tooltip)``;
+
+export const LocationIcon = styled(LocationOnIcon)`
+    color: orange;
+    font-size: 30px;
 `;
