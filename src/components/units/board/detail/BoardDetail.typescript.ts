@@ -10,4 +10,5 @@ export interface IBoardDetailUIProps {
     onClickMoveToBoardEdit: () => void;
     onClickLike: () => void;
     onClickDisLike: () => void;
+    getSafeString: (value: any) => string;
 }

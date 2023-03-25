@@ -3,6 +3,11 @@ import { Modal } from "antd";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import { type ISubmitButtonProps } from "./BoardWrite.typescript";
 
+export const CenterDiv = styled.div`
+    display: flex;
+    justify-content: center;
+`;
+
 export const Wrapper = styled.div`
     width: 1200px;
     // height: 1847px;

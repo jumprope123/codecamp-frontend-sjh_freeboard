@@ -1,5 +1,11 @@
 import styled from "@emotion/styled";
 
+export const CenterDiv = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+`;
+
 export const ItemWrapper = styled.div`
     width: 1200px;
     margin: 0px 100px;
