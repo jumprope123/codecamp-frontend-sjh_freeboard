@@ -3,7 +3,9 @@ import styled from "@emotion/styled";
 export const CenterDiv = styled.div`
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
 `;
 
 export const ItemWrapper = styled.div`

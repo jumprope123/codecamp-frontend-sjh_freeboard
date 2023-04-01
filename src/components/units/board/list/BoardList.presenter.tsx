@@ -1,6 +1,7 @@
 import * as S from "./BoardList.emotions";
 import { getDate } from "../../../commons/utils/utils";
 import { type IBoardListUIProps } from "./BoardList.typescript";
+import PageNation01 from "../../../commons/pagitaion/01/Paginations01.container";
 export default function BoardListUI(props: IBoardListUIProps) {
     return (
         <>
@@ -28,6 +29,9 @@ export default function BoardListUI(props: IBoardListUIProps) {
                         </S.Row>
                     ))}
                     <S.TableBottom />
+                    <S.NavigationWrapper>
+                        <PageNation01 refetch={props.refetch} count={props.count} />
+                    </S.NavigationWrapper>
                     <S.Footer>
                         <S.Button onClick={props.onClickMoveToBoardNew}>
                             <S.PencilIcon src="/images/board/list/write.png" />

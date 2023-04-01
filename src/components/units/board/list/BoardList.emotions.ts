@@ -60,11 +60,18 @@ export const TableBottom = styled.div`
     border-bottom: 2px solid gray;
 `;
 
+export const NavigationWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 50px;
+`;
+
 export const Footer = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    padding-top: 50px;
+    justify-content: flex-end;
+    margin-top: -30px;
 `;
 
 export const Button = styled.button`
