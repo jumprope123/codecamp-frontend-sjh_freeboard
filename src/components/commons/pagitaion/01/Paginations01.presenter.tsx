@@ -1,4 +1,4 @@
-import { KeyboardArrowLeft, KeyboardArrowRight, KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight, Page, PrevNextSpan } from "./Paginations01.styles";
+import { KeyboardArrowLeft, KeyboardArrowRight, KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight, Page } from "./Paginations01.styles";
 import { IPaginations01UIProps } from "./Paginations01.types";
 
 export default function Pagination01UI(props: IPaginations01UIProps) {

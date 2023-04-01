@@ -6,7 +6,7 @@ export default function PageNation01(props: IPaginations01Props) {
     const [startPage, setStartPage] = useState(1);
     const [activedPage, setActivedPage] = useState(1);
     const lastPage = props.count != null ? Math.ceil(props.count / 10) : 0;
-    const LastStartPage = props.count != null ? Math.floor(props.count / 10) + 1 : 0;
+    const LastStartPage = Math.floor(lastPage / 10) * 10 + 1;
 
     const onClickPage = (event: MouseEvent<HTMLSpanElement>) => {
         setActivedPage(Number(event.currentTarget.id));
